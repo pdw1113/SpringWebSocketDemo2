@@ -3,7 +3,6 @@ package com.example.websocket.config;
 import java.util.List;
 
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.converter.cbor.MappingJackson2CborHttpMessageConverter;
 import org.springframework.messaging.converter.DefaultContentTypeResolver;
 import org.springframework.messaging.converter.MappingJackson2MessageConverter;
 import org.springframework.messaging.converter.MessageConverter;
