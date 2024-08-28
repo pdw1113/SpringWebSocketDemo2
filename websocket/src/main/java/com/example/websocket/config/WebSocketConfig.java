@@ -47,13 +47,18 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 	@Override
 	public boolean configureMessageConverters(List<MessageConverter> messageConverters) {
 		
+		// 메세지의 MIME타입을 결정, JSON으로 설정함.
 		DefaultContentTypeResolver resolver = new DefaultContentTypeResolver();
 		resolver.setDefaultMimeType(MimeTypeUtils.APPLICATION_JSON);
+		
+		// Jackson 라이브러리 => Java객체를 JSON으로 직렬화 및 역직렬화
 		MappingJackson2MessageConverter converter = new MappingJackson2MessageConverter();
+		// ObjectMapper => JSON데이터 처리
 		converter.setObjectMapper(new ObjectMapper());
 		converter.setContentTypeResolver(resolver);
 		messageConverters.add(converter);
 		
+		// Spring 기본 메세지 변환기 설정 유지하면서 위의 수정사항만 반영.
 		return false;
 	}
 	
