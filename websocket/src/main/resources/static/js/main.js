@@ -14,6 +14,7 @@ let nickname = null;
 let fullname = null;
 let selectedUserId = null;
 
+// 1. 웹소켓 연결하기
 function connect(event) {
     nickname = document.querySelector('#nickname').value.trim();
     fullname = document.querySelector('#fullname').value.trim();
@@ -22,16 +23,19 @@ function connect(event) {
         usernamePage.classList.add('hidden');
         chatPage.classList.remove('hidden');
 
+		// WebSocketConfig.java에 addEndpoint로 연결된다.
         const socket = new SockJS('/ws');
+		// TODO
         stompClient = Stomp.over(socket);
-
+		// TODO
         stompClient.connect({}, onConnected, onError);
     }
     event.preventDefault();
 }
 
-
+// 2. 웹소켓 연결 되었을 때
 function onConnected() {
+	// Expression interpolation : ${} 사이에 변수나 연산 등을 삽입할 수 있게 되었다.
     stompClient.subscribe(`/user/${nickname}/queue/messages`, onMessageReceived);
     stompClient.subscribe(`/user/public`, onMessageReceived);
 
