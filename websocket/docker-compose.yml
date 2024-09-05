@@ -1,23 +1,29 @@
 services:
+  # MongoDB 서비스 정의
   mongodb:
-    image: mongo
-    container_name: mongo_db
+    image: mongo:latest  # MongoDB 최신 버전 사용
+    container_name: mongodb  # 컨테이너 이름 지정
+    restart: always  # 컨테이너가 실패하면 자동으로 재시작
     ports:
-      - 27017:27017
-    volumes:
-      - mongo:/data
+      - "27017:27017"  # MongoDB 기본 포트
     environment:
-      - MONGO_INITDB_ROOT_USERNAME=alibou
-      - MONGO_INITDB_ROOT_PASSWORD=alibou
+      - MONGO_INITDB_ROOT_USERNAME=root # 루트 사용자 이름
+      - MONGO_INITDB_ROOT_PASSWORD=1234  # 루트 사용자 비밀번호
+    volumes:
+      - mongo_data:/data/db  # MongoDB 데이터 영구 저장소
+
+  # Mongo Express 서비스 정의 (MongoDB 관리 웹 UI)
   mongo-express:
-    image: mongo-express
+    image: mongo-express:latest
     container_name: mongo_express
     restart: always
     ports:
-      - 8081:8081
+      - "8081:8081"  # Mongo Express 웹 UI 포트
     environment:
-      - ME_CONFIG_MONGODB_ADMINUSERNAME=alibou
-      - ME_CONFIG_MONGODB_ADMINPASSWORD=alibou
-      - ME_CONFIG_MONGODB_SERVER=mongodb
+      - ME_CONFIG_MONGODB_ADMINUSERNAME=root  # MongoDB 사용자 이름
+      - ME_CONFIG_MONGODB_ADMINPASSWORD=1234  # MongoDB 사용자 비밀번호
+      - ME_CONFIG_MONGODB_SERVER=mongodb  # MongoDB 서버 이름 (docker-compose에서 자동으로 해결)
+
 volumes:
-  mongo: {}
+  mongo_data:
+    driver: local  # 로컬 저장소 사용
